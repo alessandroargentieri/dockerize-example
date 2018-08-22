@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Vue with Axios</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <style> 
+        body {background-color: #3423;}
+        h3   {padding: 20px;}
+        p, a, input    {margin-left: 20px;}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3 class="title">Inserisci l'email dell'utente<h1>
+        <input type="email" name="email" placeholder="email" v-model="email"><br/><br/>
+        <p>{{ result }}</p><br/><br/>
+        <a class="button is-info is-outlined" @click="sendData()">Invia</a>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data:{
+                email: "",
+                result: "Hello World!"
+            },
+            created: function(){
+                //this.loadQuote();
+            },
+            methods:{
+                sendData: function(){
+                    this.result="Loading...";
+                    var vm = this;
+                    axios.get(`http://localhost:8080/aggregator?email=${this.email}`)
+                         .then(response => (vm.result = response.data) )
+                         .catch(error => (vm.result = `Errore: ${error}` ) ); 
+                     /*    .then(function(response){
+                             console.log(response);
+                          vm.result = response.data;
+                      }).catch(function(error){
+                          console.log(error);
+                          vm.result = "An error occurred. " + error;
+                      }); */
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>
